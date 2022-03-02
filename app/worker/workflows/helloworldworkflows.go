@@ -3,10 +3,11 @@ package workflows
 import (
 	"context"
 	"fmt"
+	"time"
+
 	"go.uber.org/cadence/activity"
 	"go.uber.org/cadence/workflow"
 	"go.uber.org/zap"
-	"time"
 )
 
 /**

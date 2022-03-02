@@ -1,0 +1,217 @@
+[
+    {
+        "eventId": 1,
+        "timestamp": 1646220399946331393,
+        "eventType": "WorkflowExecutionStarted",
+        "version": 0,
+        "taskId": 1048628,
+        "workflowExecutionStartedEventAttributes": {
+            "workflowType": {
+                "name": "github.com/tonykung06/cadence-api-example/app/worker/workflows.Workflow"
+            },
+            "taskList": {
+                "name": "helloWorldGroup"
+            },
+            "input": "IkFuZHkiIDMw",
+            "executionStartToCloseTimeoutSeconds": 999,
+            "taskStartToCloseTimeoutSeconds": 60,
+            "continuedExecutionRunId": "",
+            "originalExecutionRunId": "e946752c-aec3-44e7-8fab-6d9ad4995579",
+            "identity": "cadence-cli@docker-desktop",
+            "firstExecutionRunId": "e946752c-aec3-44e7-8fab-6d9ad4995579",
+            "attempt": 0,
+            "cronSchedule": "",
+            "firstDecisionTaskBackoffSeconds": 0
+        }
+    },
+    {
+        "eventId": 2,
+        "timestamp": 1646220399946342580,
+        "eventType": "DecisionTaskScheduled",
+        "version": 0,
+        "taskId": 1048629,
+        "decisionTaskScheduledEventAttributes": {
+            "taskList": {
+                "name": "helloWorldGroup"
+            },
+            "startToCloseTimeoutSeconds": 60,
+            "attempt": 0
+        }
+    },
+    {
+        "eventId": 3,
+        "timestamp": 1646220399960821108,
+        "eventType": "DecisionTaskStarted",
+        "version": 0,
+        "taskId": 1048634,
+        "decisionTaskStartedEventAttributes": {
+            "scheduledEventId": 2,
+            "identity": "21412@Assistants-MacBook-Pro.local@helloWorldGroup",
+            "requestId": "4c53d013-401a-471f-b752-c29a5b531568"
+        }
+    },
+    {
+        "eventId": 4,
+        "timestamp": 1646220399976798738,
+        "eventType": "DecisionTaskCompleted",
+        "version": 0,
+        "taskId": 1048637,
+        "decisionTaskCompletedEventAttributes": {
+            "scheduledEventId": 2,
+            "startedEventId": 3,
+            "identity": "21412@Assistants-MacBook-Pro.local@helloWorldGroup",
+            "binaryChecksum": "90908fb2fc8ee80bdde2532d8f0a5844"
+        }
+    },
+    {
+        "eventId": 5,
+        "timestamp": 1646220399976947944,
+        "eventType": "ActivityTaskScheduled",
+        "version": 0,
+        "taskId": 1048638,
+        "activityTaskScheduledEventAttributes": {
+            "activityId": "0",
+            "activityType": {
+                "name": "github.com/tonykung06/cadence-api-example/app/worker/workflows.helloworldActivity"
+            },
+            "taskList": {
+                "name": "helloWorldGroup"
+            },
+            "input": "IkFuZHkiCg==",
+            "scheduleToCloseTimeoutSeconds": 120,
+            "scheduleToStartTimeoutSeconds": 60,
+            "startToCloseTimeoutSeconds": 60,
+            "heartbeatTimeoutSeconds": 20,
+            "decisionTaskCompletedEventId": 4,
+            "header": {}
+        }
+    },
+    {
+        "eventId": 6,
+        "timestamp": 1646220400000011653,
+        "eventType": "ActivityTaskStarted",
+        "version": 0,
+        "taskId": 1048642,
+        "activityTaskStartedEventAttributes": {
+            "scheduledEventId": 5,
+            "identity": "21412@Assistants-MacBook-Pro.local@helloWorldGroup",
+            "requestId": "300d287b-afb5-4b89-ae70-11c8fa74904a",
+            "attempt": 0,
+            "lastFailureReason": ""
+        }
+    },
+    {
+        "eventId": 7,
+        "timestamp": 1646220400021200581,
+        "eventType": "ActivityTaskCompleted",
+        "version": 0,
+        "taskId": 1048645,
+        "activityTaskCompletedEventAttributes": {
+            "result": "IkhlbGxvIEFuZHkhIEhvdyBvbGQgYXJlIHlvdSEiCg==",
+            "scheduledEventId": 5,
+            "startedEventId": 6,
+            "identity": "21412@Assistants-MacBook-Pro.local@helloWorldGroup"
+        }
+    },
+    {
+        "eventId": 8,
+        "timestamp": 1646220400021243625,
+        "eventType": "DecisionTaskScheduled",
+        "version": 0,
+        "taskId": 1048647,
+        "decisionTaskScheduledEventAttributes": {
+            "taskList": {
+                "name": "Assistants-MacBook-Pro.local:e6075120-9f23-4d3a-9d6c-9cfd5145f414"
+            },
+            "startToCloseTimeoutSeconds": 60,
+            "attempt": 0
+        }
+    },
+    {
+        "eventId": 9,
+        "timestamp": 1646220400038490099,
+        "eventType": "DecisionTaskStarted",
+        "version": 0,
+        "taskId": 1048651,
+        "decisionTaskStartedEventAttributes": {
+            "scheduledEventId": 8,
+            "identity": "21412@Assistants-MacBook-Pro.local@helloWorldGroup",
+            "requestId": "c0e5dec1-2ea2-4187-a2e5-292dfb0112ae"
+        }
+    },
+    {
+        "eventId": 10,
+        "timestamp": 1646220400070313530,
+        "eventType": "DecisionTaskCompleted",
+        "version": 0,
+        "taskId": 1048654,
+        "decisionTaskCompletedEventAttributes": {
+            "scheduledEventId": 8,
+            "startedEventId": 9,
+            "identity": "21412@Assistants-MacBook-Pro.local@helloWorldGroup",
+            "binaryChecksum": "90908fb2fc8ee80bdde2532d8f0a5844"
+        }
+    },
+    {
+        "eventId": 11,
+        "timestamp": 1646220436769516339,
+        "eventType": "WorkflowExecutionSignaled",
+        "version": 0,
+        "taskId": 1048656,
+        "workflowExecutionSignaledEventAttributes": {
+            "signalName": "helloWorldSignal",
+            "input": "NTA=",
+            "identity": "cadence-cli@docker-desktop"
+        }
+    },
+    {
+        "eventId": 12,
+        "timestamp": 1646220436769526284,
+        "eventType": "DecisionTaskScheduled",
+        "version": 0,
+        "taskId": 1048658,
+        "decisionTaskScheduledEventAttributes": {
+            "taskList": {
+                "name": "Assistants-MacBook-Pro.local:e6075120-9f23-4d3a-9d6c-9cfd5145f414"
+            },
+            "startToCloseTimeoutSeconds": 60,
+            "attempt": 0
+        }
+    },
+    {
+        "eventId": 13,
+        "timestamp": 1646220436782783686,
+        "eventType": "DecisionTaskStarted",
+        "version": 0,
+        "taskId": 1048662,
+        "decisionTaskStartedEventAttributes": {
+            "scheduledEventId": 12,
+            "identity": "21412@Assistants-MacBook-Pro.local@helloWorldGroup",
+            "requestId": "41399264-d08f-4b0f-a780-c2313dea951d"
+        }
+    },
+    {
+        "eventId": 14,
+        "timestamp": 1646220436808387250,
+        "eventType": "DecisionTaskCompleted",
+        "version": 0,
+        "taskId": 1048665,
+        "decisionTaskCompletedEventAttributes": {
+            "scheduledEventId": 12,
+            "startedEventId": 13,
+            "identity": "21412@Assistants-MacBook-Pro.local@helloWorldGroup",
+            "binaryChecksum": "90908fb2fc8ee80bdde2532d8f0a5844"
+        }
+    },
+    {
+        "eventId": 15,
+        "timestamp": 1646220436808446335,
+        "eventType": "WorkflowExecutionCompleted",
+        "version": 0,
+        "taskId": 1048666,
+        "workflowExecutionCompletedEventAttributes": {
+            "result": "IllvdSBjYW4ndCBiZSB0aGF0IG9sZCEiCg==",
+            "decisionTaskCompletedEventId": 14
+        }
+    }
+]
