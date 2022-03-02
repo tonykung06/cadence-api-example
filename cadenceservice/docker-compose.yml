@@ -1,11 +1,18 @@
 version: '3'
 services:
-  cassandra:
-    image: cassandra:3.11
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_DB=cadence_test
+      - POSTGRES_USER=cadence_test
+      - POSTGRES_PASSWORD=cadence_test
     ports:
-      - "9042:9042"
-    volumes:
-      - ./data/cassandra:/var/lib/cassandra # Link volume to local data directory to prevent data loss
+      - '5433:5432'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cadence_test"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   statsd:
     image: hopsoft/graphite-statsd
     ports:
@@ -14,21 +21,27 @@ services:
       - "8125:8125"
       - "8126:8126"
   cadence:
-    image: ubercadence/server:0.11.0-auto-setup # Update this version number if there are new versions release
+    image: ubercadence/server:0.23.2-auto-setup
     ports:
       - "7933:7933"
       - "7934:7934"
       - "7935:7935"
       - "7939:7939"
     environment:
-      - "CASSANDRA_SEEDS=cassandra"
-      - "STATSD_ENDPOINT=statsd:8125"
+      - "DB=postgres"
+      - "DB_PORT=5432"
+      - "POSTGRES_USER=cadence_test"
+      - "POSTGRES_PWD=cadence_test"
+      - "POSTGRES_SEEDS=postgres"
+      - "DBNAME=cadence_test"
       - "DYNAMIC_CONFIG_FILE_PATH=config/dynamicconfig/development.yaml"
     depends_on:
-      - cassandra
-      - statsd
+      postgres:
+        condition: service_healthy
+      statsd:
+        condition: service_started
   cadence-web:
-    image: ubercadence/web:3.9.0
+    image: ubercadence/web:v3.29.6
     environment:
       - "CADENCE_TCHANNEL_PEERS=cadence:7933"
     ports:
