@@ -18,6 +18,6 @@ func TestReplayWorkflowHistoryFromFile(t *testing.T) {
 
 	// replayer.RegisterWorkflow(wf.Workflow)
 
-	err := replayer.ReplayWorkflowHistoryFromJSONFile(zaptest.NewLogger(t), "./workflow-replay-histories/max_age_30.json")
+	err := replayer.ReplayWorkflowHistoryFromJSONFile(zaptest.NewLogger(t), "./workflow-replay-histories/max_age_random_from_activity.json")
 	require.NoError(t, err)
 }

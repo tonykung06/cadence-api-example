@@ -3,6 +3,7 @@ package workflows
 import (
 	"context"
 	"fmt"
+	"math/rand"
 	"time"
 
 	"go.uber.org/cadence/activity"
@@ -23,6 +24,7 @@ const SignalName = "helloWorldSignal"
 func init() {
 	workflow.Register(Workflow)
 	activity.Register(helloworldActivity)
+	activity.Register(maxAgeActivity)
 }
 
 var activityOptions = workflow.ActivityOptions{
@@ -35,6 +37,10 @@ func helloworldActivity(ctx context.Context, name string) (string, error) {
 	logger := activity.GetLogger(ctx)
 	logger.Info("helloworld activity started")
 	return "Hello " + name + "! How old are you!", nil
+}
+
+func maxAgeActivity(ctx context.Context) (int, error) {
+	return rand.Intn(100), nil
 }
 
 func Workflow(ctx workflow.Context, name string) (string, error) {
@@ -50,22 +56,27 @@ func Workflow(ctx workflow.Context, name string) (string, error) {
 	}
 
 	// After saying hello, the workflow will wait for you to inform it of your age!
-	signalName := SignalName
 	selector := workflow.NewSelector(ctx)
 	var ageResult int
+	var maxAge = 150
 
 	for {
-		signalChan := workflow.GetSignalChannel(ctx, signalName)
-		selector.AddReceive(signalChan, func(c workflow.Channel, more bool) {
+		err := workflow.ExecuteActivity(ctx, maxAgeActivity).Get(ctx, &maxAge)
+		if err != nil {
+			logger.Error("Activity failed.", zap.Error(err))
+			return "", err
+		}
+
+		selector.AddReceive(workflow.GetSignalChannel(ctx, SignalName), func(c workflow.Channel, more bool) {
 			c.Receive(ctx, &ageResult)
-			workflow.GetLogger(ctx).Info("Received age results from signal!", zap.String("signal", signalName), zap.Int("value", ageResult))
+			workflow.GetLogger(ctx).Info("Received age results from signal!", zap.String("signal", SignalName), zap.Int("value", ageResult))
 		})
-		workflow.GetLogger(ctx).Info("Waiting for signal on channel.. " + signalName)
+		workflow.GetLogger(ctx).Info("Waiting for signal on channel.. " + SignalName)
 		// Wait for signal
 		selector.Select(ctx)
 
 		// We can check the age and return an appropriate response
-		if ageResult > 0 && ageResult < 150 {
+		if ageResult > 0 && ageResult < maxAge {
 			logger.Info("Workflow completed.", zap.String("NameResult", activityResult), zap.Int("AgeResult", ageResult))
 
 			return fmt.Sprintf("Hello "+name+"! You are %v years old!", ageResult), nil
